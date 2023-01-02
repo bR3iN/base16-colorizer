@@ -2,7 +2,7 @@ use std::collections::BTreeMap;
 use std::env;
 use std::fs::OpenOptions;
 use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::process::{Command, Stdio};
 
 use serde::Deserialize;
 
@@ -161,6 +161,9 @@ impl App {
         let status = Command::new(&self.shell)
             .arg("-c")
             .arg(cmd)
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
             .status()
             .add_context(|| format!("Failed to execute '{}'", cmd))?;
 
